@@ -1,0 +1,26 @@
+#! /bin/sh
+chmod -x img/*.jpg img/weather/*.jpg *.pdf *.ltx xepersian.dtx
+xelatex -shell-escape xepersian.dtx
+xelatex -shell-escape xepersian.dtx
+xelatex -shell-escape xepersian.dtx
+teckit_compile persian-tex-text.map
+teckit_compile persian-tex-text.map
+teckit_compile persian-tex-text.map
+xelatex -shell-escape xepersian-doc.ltx
+xelatex -shell-escape xepersian-doc.ltx
+xelatex -shell-escape xepersian-doc.ltx
+mkdir -p doc/xelatex/xepersian fonts/misc/xetex/fontmapping/xepersian source/xelatex/xepersian tex/xelatex/xepersian 
+mkdir xepersian
+mv *.def *.sty *.cls  xepersian-logo.pdf tex/xelatex/xepersian
+mv *.ltx *.dtx *.ins source/xelatex/xepersian
+mv *.pdf *.py *.tex README img doc/xelatex/xepersian
+mv persian-tex-text.map persian-tex-text.tec fonts/misc/xetex/fontmapping/xepersian
+zip -r xepersiantds doc/xelatex/xepersian fonts/misc/xetex/fontmapping/xepersian source/xelatex/xepersian tex/xelatex/xepersian
+mv xepersiantds.zip xepersian.tds.zip
+mv doc/xelatex/xepersian/*.pdf doc/xelatex/xepersian/*.py doc/xelatex/xepersian/README  doc/xelatex/xepersian/img source/xelatex/xepersian/*.ltx source/xelatex/xepersian/*.dtx xepersian
+zip -r xepersian xepersian.tds.zip xepersian
+rm -r doc tex source fonts xepersian
+rm *.aux *.glo *.gls *.hd *.idx *.ilg *.ind *.log *.out *.toc xepersian.tds.zip
+
+
+

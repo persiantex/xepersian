@@ -1,0 +1,108 @@
+\usepackage{docmute}
+\usepackage{supertabular}
+\usepackage{fontspec}
+\setmainfont[Ligatures=TeX,Numbers=OldStyle]{Minion Pro}
+\setsansfont[Ligatures=TeX,Numbers=OldStyle]{Myriad Pro}
+\usepackage{calc}
+\usepackage{pifont}
+\usepackage{bbding}
+\usepackage{bidicode}
+\usepackage{microtype}
+\definecolor{xepersianblue}{rgb}{0.1,0.2,0.8}
+\usepackage[numbered]{hypdoc}
+\definecolor{myred}{rgb}{0.65,0.04,0.07}
+\hypersetup{%
+  pdfauthor={Vafa Khalighi},%
+  linkcolor=xepersianblue,%
+  urlcolor=xepersianblue,%
+  citecolor=xepersianblue%
+}
+\usepackage{bidi}
+\setlength\columnseprule{.4pt}
+\newfontfamily\ParsiFont[Script=Arabic]{Iranian Sans}
+\def\Pcs#1{\nxPLcs{#1}}
+\def\nxPLcs#1{\RLE{\texttt{\symbol{92}\ParsiFont#1}}}
+\def\Lenv#1{\texttt{#1}}
+\def\Penv#1{\RLE{\ParsiFont#1}}
+\let\parsitext\Penv
+\def\XeTeX{Xe\TeX}
+\def\XeLaTeX{Xe\LaTeX}
+\def\XePersian{XePersian}
+\newcommand*{\bicsintabular}[2]{\Lcs{#2}&\Pcs{#1}\\}
+\newcommand*{\biffintabular}[2]{\texttt{#1}&\Penv{#2}\\}
+\newcommand*{\biffointabular}[3]{\texttt{#1}&\texttt{#2}&\Penv{#3}\\}
+\newcommand*{\bienvintabular}[2]{\Lenv{#2}&\Penv{#1}\\}
+\makeatletter
+\renewcommand\tableofcontents{\relax
+  \begin{multicols}{2}[\section*{\contentsname}]\small
+    \@starttoc{toc}\relax
+  \end{multicols}}
+\pdfstringdefDisableCommands{%
+\renewcommand\Lcs[1]{\textbackslash#1}
+}
+\newbox\xepersianlogobox
+\sbox{\xepersianlogobox}{\includegraphics[height=0.5in,keepaspectratio=true]{xepersian-logo}}
+\def\ps@docheadings{%
+      \let\@oddhead\@empty
+      \def\@oddfoot{\parbox{\textwidth}{\hfill\leftmark\quad\thepage\qquad\raisebox{-0.2in}{\usebox\xepersianlogobox}}}%
+      \let\@mkboth\markboth
+    \def\sectionmark##1{%
+      \markboth {%
+        ##1}{}}}
+\def\@part[#1]#2{%
+    \ifnum \c@secnumdepth >\m@ne
+      \refstepcounter{part}%
+      \addcontentsline{toc}{part}{\thepart\hspace{1em}#1}%
+    \else
+      \addcontentsline{toc}{part}{#1}%
+    \fi
+    {\parindent \z@ \raggedright
+     \interlinepenalty \@M
+     \normalfont
+     \ifnum \c@secnumdepth >\m@ne
+       \Large\bfseries\color{blue!65!black} \partname\nobreakspace\thepart
+       \par\nobreak
+     \fi
+     \huge \bfseries #2%
+     \markboth{}{}\par}%
+    \nobreak
+    \vskip 3ex
+    \@afterheading}
+\def\@spart#1{%
+    {\parindent \z@ \raggedright
+     \interlinepenalty \@M
+     \normalfont
+     \huge \bfseries\color{blue!65!black} #1\par}%
+     \nobreak
+     \vskip 3ex
+     \@afterheading}
+\renewcommand\section{\@startsection {section}{1}{\z@}%
+                                   {-3.5ex \@plus -1ex \@minus -.2ex}%
+                                   {2.3ex \@plus.2ex}%
+                                   {\normalfont\Large\bfseries\color{blue!65!black}}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\large\bfseries\color{blue!65!black}}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries\color{blue!65!black}}}
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+                                    {3.25ex \@plus1ex \@minus.2ex}%
+                                    {-1em}%
+                                    {\normalfont\normalsize\bfseries\color{blue!65!black}}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{5}{\parindent}%
+                                       {3.25ex \@plus1ex \@minus .2ex}%
+                                       {-1em}%
+                                      {\normalfont\normalsize\bfseries\color{blue!65!black}}}  
+\makeatother
+\pagestyle{docheadings}
+\newcounter{local}
+\renewcommand\theenumi{\protect\setcounter{local}%
+  {201+\the\value{enumi}}\protect\ding{\value{local}}}
+\renewcommand\labelenumi{\theenumi}
+\renewcommand\labelitemi{\HandRight}
+\renewcommand\labelitemii{\HandRightUp}
+\renewcommand\labelitemiii{\HandCuffRight}
+\renewcommand\labelitemiv{\HandPencilLeft}

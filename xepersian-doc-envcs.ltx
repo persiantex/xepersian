@@ -1,0 +1,90 @@
+\documentclass{ltxdoc}
+\input{xepersian-doc-preamble.ltx}
+\begin{document}
+\section{Latin and Persian Environment}
+\begin{BDef}
+\LBEG{latin}\quad\Larga{text}\quad\LEND{latin}\\
+\LBEG{persian}\quad\Larga{text}\quad\LEND{persian}
+\end{BDef}
+\begin{itemize}
+\item \texttt{latin} environment both changes direction of the paragraphs to LTR and font to Latin font.
+\item \texttt{persian} environment both changes direction of the Paragraphs to RTL and font to Persian font.
+\end{itemize}
+\subsection{\textsf{latinitems} and \textsf{parsiitems} environments}
+\begin{BDef}
+\LBEG{latinitems}\\
+\quad\Lcs{item} \Larga{text}\\
+\quad\ldots\\
+\LEND{latinitems}
+\end{BDef}
+\begin{itemize}
+\item \textsf{latinitems} environment is similar to \textsf{LTRitems} environment but changes the font to Latin font.
+\end{itemize}
+\begin{BDef}
+\LBEG{parsiitems}\\
+\quad\Lcs{item} \Larga{text}\\
+\quad\ldots\\
+\LEND{parsiitems}
+\end{BDef}
+\begin{itemize}
+\item \textsf{parsiitems} environment is similar to \textsf{RTLitems} environment but changes the font to Persian font.
+\end{itemize}
+
+\subsection{Short Latin and Persian Texts}
+\begin{BDef}
+\Lcs{lr}\Largb{\Larga{text}}\quad\Lcs{rl}\Largb{\Larga{text}}
+\end{BDef}
+\begin{itemize}
+\item With \Lcs{lr} command, you can typeset short LTR texts.
+\item With \Lcs{rl} command, you can typeset short RTL texts.
+\end{itemize}
+\subsection{Miscellaneous Commands}
+\begin{BDef}
+\Lcs{persianyear}\quad\Lcs{persianmonth}\quad\Lcs{persianday}\\
+\Lcs{today}\quad\Lcs{latintoday}\quad\Lcs{twocolumnstableofcontents}\quad\Lcs{XePersian}\\
+\Lcs{plq}\quad\Lcs{prq}
+\end{BDef}
+\begin{itemize}
+\item \Lcs{persianyear} is Persian equivalent  of \Lcs{year}.
+\item \Lcs{persianmonth} is Persian equivalent of \Lcs{month}.
+\item \Lcs{persianday} is Persian equivalent of \Lcs{day}.
+\item \Lcs{today} typesets current Persian date and \Lcs{latintoday} typesets current Latin date.
+\item \Lcs{twocolumnstableofcontents} typesets table of contents in two columns. This requires that you have loaded \textsf{multicol} package before \textsf{\XePersian} package, otherwise an error will be issued.
+\item \Lcs{XePersian} typesets \XePersian's logo.
+\item \Lcs{plq} and \Lcs{prq} typeset Persian left quote and Persian right quote respectively.
+\end{itemize}
+\subsection{New Commands}
+\begin{BDef}
+\Lcs{Latincite}
+\end{BDef}
+\begin{itemize}
+\item\Lcs{Latincite} functions exactly like \Lcs{cite} command with only one difference; the reference to biblabel item is printed in Latin font in the text.
+\end{itemize}
+\subsection{Additional Counters}
+\XePersian\ defines several additional counters to what already \LaTeX\ offers. These counters are \texttt{harfi}, \texttt{adadi}, and \texttt{tartibi}. In addition, the following commands are also provided:
+
+\begin{BDef}
+\Lcs{harfinumeral}\Largb{\Larga{integer}}\quad\Lcs{adadinumeral}\Largb{\Larga{integer}}\quad\Lcs{tartibinumeral}\Largb{\Larga{integer}}\quad
+\end{BDef}
+\begin{itemize}
+\item The range of \texttt{harfi} counter is integers between 1 and 32 (number of the Persian alphabets) and \texttt{adadi} and \texttt{tartibi} counters, are integers between 0 and 999,999,999.
+\item For \texttt{harfi} counter, if you give an integer bigger than 32 or a negative integer (if you give integer 0, it returns nothing), then you get error and for \texttt{adadi} and \texttt{tartibi} counters, if you give an integer bigger than 999,999,999, then you get an error message.
+\item For \texttt{adadi} and \texttt{tartibi} counters, if you give an integer less than 0 (a negative integer), then \texttt{adadi} and \texttt{tartibi} counters return \textbf{adadi} and \textbf{tartibi} form of the integer 0, respectively. 
+\item \Lcs{harfinumeral} returns the \textbf{harfi} form of \Larga{integer}, where $1\leq integer\leq32$ and  \Lcs{adadinumeral}, and \Lcs{tartibinumeral} return \textbf{adadi}, and \textbf{tartibi} form of \Larga{integer} respectively, where $0\leq integer\leq 999,999,999$.
+\end{itemize}
+\subsection{Things To Know About \Lcs{setmathdigitfont}, \Lcs{setmathsfdigitfont}, and \Lcs{setmathttdigitfont}}
+\begin{BDef}
+\Lcs{DefaultMathsDigits}\quad\Lcs{PersianMathsDigits}\quad\Lcs{AutoMathsDigits}
+\end{BDef}
+\begin{itemize}
+ \item As we discussed before, \Lcs{setmathdigitfont} will choose the Persian font for digits in math mode. By default, digits in math mode will appear in Persian form.
+\item  As we discussed before,  \Lcs{setmathsfdigitfont}, and \Lcs{setmathttdigitfont} will choose the Persian sans serif and typewriter fonts for digits in math mode. By using this command, digits in math mode will appear in Persian form and if you do not use this command at all, you will get default \TeX\ font for digits in math mode and digits appear in their original form (Western). 
+
+If you use \Lcs{setmathdigitfont}, \Lcs{setmathsfdigitfont}, and \Lcs{setmathttdigitfont}, then  you should  know that:
+\begin{itemize}
+\item By default, \Lcs{AutoMathsDigits} is active, which means that in Persian mode, you get Persian digits in math mode and in Latin mode, you get \TeX's default font and digits in math mode.
+\item If you use \Lcs{PersianMathsDigits} anywhere, you will overwrite  \XePersian's default behaviour and you will always get Persian digits in math mode.
+\item If you use \Lcs{DefaultMathsDigits} anywhere, again you will overwrite \XePersian's default behaviour and you will always get \TeX's default font and digits in math mode.
+\end{itemize}
+\end{itemize}
+\end{document}

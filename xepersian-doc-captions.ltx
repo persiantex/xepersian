@@ -1,0 +1,52 @@
+\documentclass{ltxdoc}
+\input{xepersian-doc-preamble.ltx}
+\begin{document}
+\section{Bilingual Captions}
+\XePersian\ sets caption bilingually. This means if you are in RTL mode, you get Persian caption and if you are in LTR mode, you get English caption.
+\subsection{Support For Various Packages}
+In addition to what \textsf{bidi} package supports, \XePersian\ also support a few packages. This support is more about language aspect rather than directionality. These packages are \textsf{algorithmic}, \textsf{algorithm},\textsf{enumerate}, and \textsf{backref} packages.
+
+\subsubsection{Things You Should Know about Support For \textsf{enumerate} Package}
+The \textsf{enumerate} package gives the enumerate environment an optional argument
+which determines the style in which the counter is printed.
+
+An occurrence of one of the tokens \texttt{A}, \texttt{a}, \texttt{I}, \texttt{i}, or \texttt{1} produces the value
+of the counter printed with (respectively) \Lcs{Alph}, \Lcs{alph}, \Lcs{Roman}, \Lcs{roman} or
+\Lcs{arabic}.
+
+In addition with the extra support that \XePersian\ provides, an occurrence of one of the tokens \Penv{ا}, \Penv{ی}, or \Penv{ت} produces the value of the counter printed with (respectively) \Lcs{harfi}, \Lcs{adadi}, or \Lcs{tartibi}.
+
+These letters may be surrounded by any strings involving any other \TeX\
+expressions, however the tokens \texttt{A}, \texttt{a}, \texttt{I}, \texttt{i},  \texttt{1}, \Penv{ا}, \Penv{ی}, \Penv{ت} must be inside a \Largb{} group if
+they are not to be taken as special.
+
+To see an Example, please look at \textsf{enumerate} package documentation.
+\subsection{Index Generation}
+For generating index, you are advised to use \textsf{xindy} program, any other program such as \textsf{makeindex} is not recommended.
+
+
+
+\subsection{Converting Your Farsi\TeX\ Files To \XePersian\ or Unicode}
+There is a python program written by Mostafa Vahedi that enables you to convert Farsi\TeX\ files to \XePersian\ or unicode. This program can be found in \textsf{doc} folder with the name \texttt{ftxe-0.12.py}. To convert your Farsi\TeX\ files to \XePersian, put \texttt{ftxe-0.12.py} in the same directory that your Farsi\TeX\ file is, and then open a terminal/command prompt and do the following:
+
+\begin{BDef}\ttfamily
+python ftxe-0.12.py file.ftx file.tex
+\end{BDef}
+
+This will convert your \texttt{file.ftx} (Farsi\TeX\ file) to \texttt{file.tex} (\XePersian\ file).
+
+The general syntax  of using the python script is as follow:
+\begin{BDef}\ttfamily
+python ftxe-0.12.py [-r] [-s] [-x] [-u] input-filename1 input-filename2
+\end{BDef}
+Where
+\begin{description}
+\item[\texttt{-r}] (DEFAULT) recursively consider files included in the given files 
+\item[\texttt{-s}] do not recursively consider files 
+\item[\texttt{-x}] (DEFAULT) insert \XePersian\ related commands 
+\item[\texttt{-u}] only convert to unicode (and not to \XePersian) 
+\end{description}
+
+Please note that the python script will not work with versions of python later than 2.6. So you are encouraged to use version 2.6 of python to benefit from this python script.
+
+\end{document}

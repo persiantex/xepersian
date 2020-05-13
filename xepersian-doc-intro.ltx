@@ -1,0 +1,38 @@
+\documentclass{ltxdoc}
+\input{xepersian-doc-preamble.ltx}
+\begin{document}
+\clearpage
+\section{Introduction}
+\XePersian\ is a package for typesetting Persian/English documents with \XeLaTeX. The package includes adaptations for use with many other commonly-used packages.
+\subsection{Important Notes}
+\begin{itemize}
+\item The \textsf{\XePersian} package  only works with \XeTeX\ engine.
+\item Before reading this documentation, you should have read the documentation of the \textsf{bidi} package. The \textsf{\XePersian} package automatically loads \textsf{bidi} package with \texttt{RTLdocument} option enabled and hence any commands that \textsf{bidi} package offers, is also available in \textsf{\XePersian} package. Here, in this documentation, we will not repeat any of \textsf{bidi} package's commands.
+\item In previous versions (\(\leq1.0.3\)) of \XePersian, a thesis class provided for typesetting thesis. As of version 1.0.4, we no longer provide this class because we are not familiar with specification of a thesis in Iran and even if we were, the specifications are different from University to University. \XePersian\ is a general package like \LaTeX\ and should not provide any class for typesetting thesis. So if you really want to have a class file for typesetting thesis, then you should ask your University/department to write one for you. 
+
+\end{itemize}
+\subsection{\textsf{\XePersian} Info On The Terminal and In The Log File}
+If you use \textsf{\XePersian} package to write any input \TeX\ document, and then run \texttt{xelatex} on your document, in addition to what \textsf{bidi} package writes  to the terminal and to the log file, the \XePersian\ package also writes some information about itself  to the terminal and to the log file, too. The information is something like:
+\begin{verbatim}
+****************************************************
+* 
+* xepersian package (Persian for LaTeX, using XeTeX engine)
+* 
+* Description: The package supports Persian
+* typesetting, using fonts provided in the
+* distribution.
+* 
+* Copyright (c) 2008--2019 Vafa Khalighi
+* 
+* v22.7, 2019/05/01
+* 
+* License: LaTeX Project Public License, version
+* 1.3c or higher (your choice)
+* 
+* Location on CTAN: /macros/xetex/latex/xepersian
+* 
+* Issue tracker: https://github.com/persiantex/xepersian/issues
+* 
+****************************************************
+\end{verbatim}
+\end{document}

@@ -1,0 +1,395 @@
+\documentclass{ltxdoc}
+\input{xepersian-doc-preamble.ltx}
+\begin{document}
+\section{Extra Packages And Classes}
+\subsection{Magazine Typesetting}
+\subsubsection{Introduction}
+\textsf{xepersian-magazine} class allows you to create magazines, newspapers and any other types of papers. The output document has a front page and as many inner pages as desired. Articles appear one after another, telling the type, number of columns, heading, subheading, images, author and so forth. It is possible to change the aspect of (almost) everything therefore it is highly customisable. Commands to add different titles, headings and footers are also provided.
+\subsubsection{Usage}
+To create\footnote{For a sample file, please look at \texttt{magazine-sample.tex} in the \textsf{doc} folder} a magazine just load the class as usual\footnote{You also need to load \textsf{graphicx}, \textsf{xunicode} and \textsf{xepersian} packages respectively, after loading the document class and choose fonts for the main text, Latin text and digits in maths formulas. For more detail see  \autoref{basics} of the documentation.}, with
+\begin{BDef}
+\Lcs{documentclass}\OptArgs\Largb{xepersian-magazine}
+\end{BDef}
+at the beginning of your source file. The class options are  described in  \autoref{s-options}.
+
+From this point it is possible to include packages and renew class commands described in  \autoref{s-custom}.
+\subsubsection{Front Page}
+As every magazine, \textsf{xepersian-magazine} has its own front page. It includes main headings, an index, the magazine logo and other useful information. This environment should be the first you use within \textsf{xepersian-magazine} class but it is not mandatory.
+
+\begin{BDef}
+\Lcs{firstimage}\quad\Lcs{firstarticle}
+\end{BDef}
+The first two commands you can use inside the \texttt{frontpage} environment are \Lcs{firstimage} and \Lcs{firstarticle} which include, respectively, the main image and the main heading in the front page. The first one takes two arguments \Larga{image} and \Larga{description}. Notice that second argument is optional and it declares the image caption; \Larga{image} defines the relative path to the image. In order to include the first piece of article use
+\begin{BDef}
+\Lcs{firstarticle}\Largb{\Larga{title}}\Largb{\Larga{opening}}\Largb{\Larga{time}}
+\end{BDef}
+first two arguments are mandatory and represent heading and the opening paragraph. Last argument is optional (you can leave it blank) and indicates the time when article happened.
+\begin{BDef}
+\Lcs{secondarticle}
+\end{BDef}
+The second piece of article is included using the command \Lcs{secondarticle} just as the first article. The main difference are that this second piece has two more arguments and it does not include an image.
+
+\begin{BDef}
+\Lcs{secondarticle}\Largb{\Larga{title}}\Largb{\Larga{subtitle}}\Largb{\Larga{opening}}\Largb{\Larga{pagesof}}\Largb{\Larga{time}}
+\end{BDef}
+The new arguments \Larga{subtitle} and \Larga{pagesof} define a subtitle and the name of the section for this piece of article.
+
+\begin{BDef}
+\Lcs{thirdarticle}
+\end{BDef}
+The third piece of article is the last one in the \textsf{xepersian-magazine} front page. It works like the \Lcs{secondarticle}.
+\begin{BDef}
+\Lcs{thirdarticle}\Largb{\Larga{title}}\Largb{\Larga{subtitle}}\Largb{\Larga{opening}}%
+\Largb{\Larga{pagesof}}\Largb{\Larga{time}}
+\end{BDef}
+The arguments meaning is the same as \Lcs{secondarticle} command.
+
+The front page includes three information blocks besides the news: \texttt{indexblock} which contains the index, \texttt{authorblock} which includes information about the author and a \texttt{weatherblock} containing a weather forecast. All these three environments are mostly a frame in the front page therefore they can be redefined to fit your personal wishes but I kept them to give an example and to respec the original \textsf{xepersian-magazine} format.
+
+\begin{BDef}
+\Lcs{indexitem}
+\end{BDef}
+The \texttt{indexblock} environment contains a manually editted index of \textsf{xepersian-magazine}. It takes one optional argument \Larga{title} and places a title over the index block. To add entries inside the index just type
+\begin{BDef}
+\Lcs{indexitem}\Largb{\Larga{title}}\Largb{\Larga{reference}}
+\end{BDef}
+inside the environment. The \Larga{title} is the index entry text and the \Larga{reference} points to a article inside \textsf{xepersian-magazine}. It will be more clear when you read  \autoref{sub-1}. In order to get a correct output, it is necessary to leave a blank line between index items.
+
+The \texttt{authorblock} environment can include whatever you would like. I called it \texttt{authorblock} because I think it is nice to include some author reference in the front page: who you are, why are you doing this... This environment creates a frame box in the bottom right corner of the front page with your own logo at the top.
+
+\begin{BDef}
+\Lcs{weatheritem}
+\end{BDef}
+Finally, the  \texttt{weatherblock} lets you include a weather forecast. It takes one optional argument \Larga{title}                           that places a title over the weather block. It can
+             fit up to three weather icons with maximum and minimum temperatures,
+             description and name. To add each of the weather entries type the following
+
+\begin{BDef}
+\Lcs{weatheritem}\Largb{\Larga{image}}\Largb{\Larga{day-name}}\Largb{\Larga{max}}%
+\Largb{\Larga{min}}\Largb{\Larga{short-des}}
+\end{BDef}
+
+The first argument includes the path to the weather icon (i.e. sunny or rainy), \Larga{day-name} like Monday, \Larga{max} and \Larga{min} are the highest and lowest day temperatures and \Larga{short-des} is a brief description of the weather condition: partly cloudy, sunny and windy \ldots
+\subsubsection{Inside\label{sub-1}}
+Once we have created the front page we should include all articles inside our magazine. \textsf{xepersian-magazine} arranges all articles one after each other, expanding headings all over the page and splitting the article text in the number of columns we wish. There are three different environments to define a piece of article: the \texttt{article} environment described in  \autoref{subsub-1}, the \texttt{editorial} environment \autoref{subsub-2} for opinion articles and the \texttt{shortarticle} environment explained in \autoref{subsub-3}.
+\subsubsection{The article environment\label{subsub-1}}
+The main environment to include a piece of article is called \texttt{article}. It takes four arguments that set up the headings and structure of the article.
+\begin{BDef}
+\LBEG{article}\Largb{\Larga{num-of-columns}}\Largb{\Larga{title}}\Largb{\Larga{subtitle}}%
+\Largb{\Larga{pagesof}}\Largb{\Larga{label}}\\
+\ldots\Larga{text}\ldots\\
+\LEND{article}
+\end{BDef}
+
+The first argument \Larga{num-of-columns} sets the number of columns the article will be divided whereas \Larga{label}  is used when pointing an article from the index in the front page. The rest of the arguments are easy to understand.
+
+
+Inside the \texttt{article} environment, besides the main text of the article, it is  possible to include additional information using several class commands.
+\begin{BDef}
+\Lcs{authorandplace}\quad\Lcs{timestamp}
+\end{BDef}
+
+The \Lcs{authorandplace}\Largb{\Larga{author}}\Largb{\Larga{place}} inserts the name of the editor and the place where the article happened in the way many magazines do. Another useful command is \Lcs{timestamp}\Largb{\Larga{time}} which includes the time and a separator just before the text. These two commands should be used before the text because they type the text as the same place they are executed.
+
+\begin{BDef}
+\Lcs{image}
+\end{BDef}
+To include images within the text of an article, \textsf{xepersian-magazine} provides an \Lcs{image} command. Since \textsf{multicol} package does not provide any float support for its \textsf{multicols} environment, I created a macro that includes an image only if that is possible, calculating if there is enough space for the image.It is not the best solution but it works quite well and I could not find a better one. To include an image use the command and its two arguments: the relative path to the image and a short description.
+\begin{BDef}
+\Lcs{image}\Largb{\Larga{image}}\Largb{\Larga{description}}
+\end{BDef}
+
+\begin{BDef}
+\Lcs{columntitle}\quad\Lcs{expandedtitle}
+\end{BDef}
+Within the text of the article, it is possible to add column and expanded titles. The main difference between them is that the first one keeps inside the width of an article column whereas the second expands all over the width of the page, breaking all the columns. Their use is analogous, as follows
+
+\begin{BDef}
+\Lcs{columntitle}\Largb{\Larga{type}}\Largb{\Larga{text}}\\
+\Lcs{expandedtitle}\Largb{\Larga{type}}\Largb{\Larga{text}}
+\end{BDef}
+These two commands use \textsf{fancybox} package features. That is why there are five different types of titles which correspond mainly with fancybox ones: \textsf{shadowbox},
+\textsf{doublebox}, \textsf{ovalbox}, \textsf{Ovalbox} and \textsf{lines}.
+\subsubsection{The editorial environment\label{subsub-2}}
+In addition to the editorial article environment, one can use the editorial environment to create editorial or opinion texts. The main feature is that it transforms the style
+of the heading. Although this environment accepts all the commands article takes, it does not make any sense to use the \Lcs{authorandplace} command within it since it includes an author argument. To create an editorial text use
+
+\begin{BDef}
+\LBEG{editorial}\Largb{\Larga{num-of-columns}}\Largb{\Larga{title}}\Largb{\Larga{author}}\Largb{\Larga{label}}\\
+\ldots\Larga{text}\ldots\\
+\LEND{editorial}
+\end{BDef}
+
+All arguments have the same meaning as article environment (see \autoref{subsub-1}).
+\subsubsection{The shortarticle environment\label{subsub-3}}
+The shortarticle environment creates a block of short article. Althought it has its own title and subtitle, each piece of article within it may have a title. To use it just
+type:
+
+\begin{BDef}
+\LBEG{shortarticle}\Largb{\Larga{num-of-columns}}\Largb{\Larga{title}}\Largb{\Larga{subtitle}}\Largb{\Larga{label}}\\
+\ldots\Larga{text}\ldots\\
+\Lcs{shortarticleitem}\Largb{\Larga{title}}\Largb{\Larga{text}}\\
+\ldots\\
+\LEND{shortarticle}
+\end{BDef}
+You can also specify the number of columns of the block like editorial and article environments. To add a piece of article inside the shortarticle use the \Lcs{shortarticleitem}, indicating a title and the text of the issue.
+\subsubsection{Commands between articles}
+\begin{BDef}
+\Lcs{articlesep}\quad\Lcs{newsection}
+\end{BDef}
+
+There are two commands you can use among the articles inside \textsf{xepersian-magazine}: \Lcs{articlesep}  and \Lcs{newsection}. The first one does not take any parameter and just draws a line between two articles. The second  changes the content of \Lcs{xepersian@section} to the new \Larga{section name}. From the point it is used, all articles which follow will be grouped within the new section.
+
+\begin{BDef}
+\Lcs{newsection}\Largb{\Larga{section name}}
+\end{BDef}
+\subsubsection{Customization\label{s-custom}}
+\textsf{xepersian-magazine} includes many commands which can be used to customize its aspect, from the front page to the last page. I will list them grouped so it is easy to find
+them. Treat them as standard \LaTeX\ commands, using \Lcs{renewcommand} to change
+their behaviour.
+\subsubsection{Front Page}
+
+\begin{BDef}
+\Lcs{customlogo}\quad\Lcs{customminilogo}\quad\Lcs{custommagazinename}
+\end{BDef}
+When creating a magazine, everyone  wants to show its own logo instead of \textsf{xepersian-magazine} default heading. To achieve this, you need to put the following command at the preamble of your document:
+
+\begin{BDef}
+\Lcs{customlogo}\Largb{\Larga{text}}\\
+\Lcs{customminilogo}\Largb{\Larga{text}}\\
+\Lcs{custommagazinename}\Largb{\Larga{text}}
+\end{BDef}
+
+
+\begin{BDef}
+\Lcs{edition}\quad\Lcs{editionformat}
+\end{BDef}
+
+The edition text has to be declared in the preamble of the document. One important thing to know is that \Lcs{author}, \Lcs{date} and \Lcs{title} have no effect inside \textsf{xepersian-magazine} since the magazine date is taken from \Lcs{today} command and the other two are only for the title page (if using \Lcs{maketitle}).
+
+\begin{BDef}
+\Lcs{indexFormat}\quad\Lcs{indexEntryFormat}\quad\Lcs{indexEntryPageTxt}\\
+\Lcs{indexEntryPageFormat}\quad%
+\Lcs{indexEntrySeparator}
+\end{BDef}
+
+When defining the index in the front page, there are several commands to customize the final index style. \Lcs{indexFormat} sets the format of the title; \Lcs{indexEntryFormat}, the format of each index entry; \Lcs{indexEntryPageTxt} and \Lcs{indexEntryPageFormat} lets you define which is the text that goes with the page number  and its format. Finally, \textsf{xepersian-magazine} creates a thin line between index entries, you can redefine it using \Lcs{indexEntrySeparator}. To get the index with \Lcs{xepersian@indexwidth} is provided.
+
+\begin{BDef}
+\Lcs{weatherFormat}\quad\Lcs{weatherTempFormat}\quad\Lcs{weatherUnits}
+\end{BDef}
+
+Relating to the weather block, the title format can be changed redefining \Lcs{weatherFormat}. In order to customize the format of the temperature numbers and their units it is necessary to redefine \Lcs{weatherTempFormat} and \Lcs{weatherUnits} respectively.
+
+\begin{BDef}
+\Lcs{*TitleFormat}\quad\Lcs{*SubtitleFormat}\quad\Lcs{*TextFormat}
+\end{BDef}
+The main article that appear in the front page can change their formats. To obtain that there are three standard commands to modify the title, subtitle and text style. You just have to replace the star (\texttt{*}) with first, second or third depending on which article you are editing. Note that first piece of article has no subtitle therefore it does not make any sense to use the non-existent command \Lcs{firstSubtitleFormat}.
+
+\begin{BDef}
+\Lcs{pictureCaptionFormat}\quad\Lcs{pagesFormat}
+\end{BDef}
+Two other elements to configure are the picture captions and the pages or section format in the entire document. To proceed just redefine the macros \Lcs{pictureCaptionFormat} and \Lcs{pagesFormat}.
+\subsubsection{Inside The Magazine}
+\begin{BDef}
+\Lcs{innerTitleFormat}\quad\Lcs{innerSubtitleFormat}\quad\Lcs{innerAuthorFormat}\\
+\Lcs{innerPlaceFormat}
+\end{BDef}
+
+The articles inside \textsf{xepersian-magazine} may have a different format from the ones in the front page. To change their title or subtitle format redefine \Lcs{innerTitleFormat} and \Lcs{innerSubtitleFormat}. The article text format matches the document general definition. When using the \Lcs{authorandplace} command, you might want to change the default style. Just renew \Lcs{innerAuthorFormat} and \Lcs{innerPlaceFormat} to get the results.
+
+\begin{BDef}
+\Lcs{timestampTxt}\quad\Lcs{timestampSeparator}\quad\Lcs{timestampFormat}
+\end{BDef}
+
+The \Lcs{timestamp} command described in  \autoref{subsub-1} lets you introduce the time of the event before the article text. You can configure its appearance by altering
+several commands: \Lcs{timestampTxt} which means the text after the timestamp; \Lcs{timestampSeparator} which defines the element between the actual timestamp and the beginning of the text and, finally, \Lcs{timestampFormat} to change the entire timestamp format.
+
+\begin{BDef}
+\Lcs{innerTextFinalMark}
+\end{BDef}
+
+\textsf{xepersian-magazine} puts a small black square at the end of the article. As I wanted to create a highly customizable \LaTeX\ class I added the macro \Lcs{innerTextFinalMark} to change this black square. This item will appear always following the last character of the text with the \texttt{\~} character.
+
+\begin{BDef}
+\Lcs{minraggedcols}\quad\Lcs{raggedFormat}
+\end{BDef}
+
+The \Lcs{minraggedcols} counter is used to tell \textsf{xepersian-magazine} when article text should be ragged instead of justified. The counter represents the minimum number of columns that are needed in order to use ragged texts. For example, if \Lcs{minraggedcols} is set to 3, all articles with 3 columns or more will be ragged. Articles with 1, 2 columns will have justified text. By default, \Lcs{minraggedcols} is set to 4. 
+
+The \Lcs{raggedFormat} macro can be redefined to fit user ragged style. Default value is \Lcs{RaggedLeft}.
+
+\begin{BDef}
+\Lcs{heading}\quad\Lcs{foot}
+\end{BDef}
+\textsf{xepersian-magazine} includes package \textsf{fancyhdr} for changing headings and footers. Although it is possible to use its own commands to modify \textsf{xepersian-magazine} style, there are two commands to change headings and foot appearance. Place them in the preamble of your \textsf{xepersian-magazine} document.
+
+\begin{BDef}
+\Lcs{heading}\Largb{\Larga{left}}\Largb{\Larga{center}}\Largb{\Larga{right}}\\
+\Lcs{foot}\Largb{\Larga{left}}\Largb{\Larga{center}}\Largb{\Larga{right}}
+\end{BDef}
+
+ If you still prefer to use fancyhdr macros, use them after the \texttt{frontpage} environment.
+
+\textsf{xepersian-magazine} by default places no headers and footers. If you want headers and foooters, then after loading \textsf{xepersian} package, you should write \Lcs{pagestyle}\Largb{fancy} at the preamble of your document.
+
+\subsubsection{Class Options\label{s-options}} 
+The \textsf{xepersian-magazine} class is in itself an alteration of the standard \textsf{article} class, thus it inherits most of its class options but \textsf{twoside}, \textsf{twocolumn}, \textsf{notitlepage} and \textsf{a4paper}. If you find problems when loading other article features, please let me know to fix it. There are also five own options that \textsf{xepersian-magazine} implements. 
+\begin{description}
+\item[\textsf{a3paper}] (false) This option makes \textsf{xepersian-magazine} 297 mm width by 420 mm height. This option is implemented because the standard \textsf{article} class does not allow this document size.
+\item[\textsf{9pt}] (false) Allows the 9pt font size that \textsf{article} class does not include (default is 10pt).
+\item[\textsf{columnlines}] columnlines (false) Adds lines between columns in the entire \textsf{xepersian-magazine}. The default line width is 0.1pt but it is possible to change this by setting length \Lcs{columnlines} in the preamble.
+\item[\textsf{showgrid}] (false) This option is only for developing purposes. Because the front page has a personal design using the textpos package, I created this grid to make easier the lay out.
+\end{description}
+
+\subsection{Typesetting Multiple-choice Questions}
+\subsubsection{Introduction}
+\textsf{xepersian-multiplechoice} is a package for making multiple choices questionnaires  under \LaTeX. A special environment
+allows you to define questions and possible answers. You can specify which
+answers are correct and which are not. \textsf{xepersian-multiplechoice} not only formats the questions
+for you, but also generates a ``form'' (a grid that your students will have to fill
+in), and a ``mask'' (the same grid, only with correct answers properly checked
+in). You can then print the mask on a slide and correct the questionnaires
+more easily by superimposing the mask on top of students' forms.
+
+\subsubsection{Usage}
+Here we now explain the usage of this package, however there are four example files, namely \texttt{test-question-only.tex}, \texttt{test-solution-form.tex}, \texttt{test-empty-form.tex} and \texttt{test-correction.tex}, available in \textsf{doc} folder that you may want to look at.
+\subsubsection{Loading The Package}
+You can load the package as usual by:
+\begin{BDef}
+\Lcs{usepackage}\OptArgs\Largb{xepersian-multiplechoice}
+\end{BDef}
+The available options are described along the text,
+where appropriate.
+\subsubsection{Creating Questions}
+Here's a simple example demonstrating how to produce a new question:
+\begin{lstlisting}[morekeywords={false,true}]
+\begin{question}{*\parsitext{سؤال}*}
+\false *\parsitext{جواب ۱}*
+\true *\parsitext{جواب ۲}*
+\false *\parsitext{جواب ۳}*
+\false *\parsitext{جواب ۴}*
+\end{question}
+\begin{correction}
+*\parsitext{جواب واقعی و علت اینکه این جواب، جواب واقعی هست}*
+\end{correction}
+\end{lstlisting}
+\subsubsection{The \texttt{question} Environment}
+The \texttt{question} environment allows you to insert questions into your document. It
+takes one mandatory argument which specifies the actual question's text. The
+question will be displayed in a frame box, the size of the line.
+\begin{BDef}
+\Lcs{true}\quad\Lcs{false}
+\end{BDef}
+
+The proposed answers are displayed below the question in a list fashion (the
+question environment is a list-based one). Instead of using \Lcs{item} however, use
+either \Lcs{true} or \Lcs{false} to insert a possible answer.
+
+\subsubsection{Question Numbers}
+The \texttt{question} environment is associated with a \LaTeX\ counter named \texttt{question}.
+This counter stores the number of the next (or current) question. It is initialized
+to 1, and automatically incremented at the end of \texttt{question} environments. You
+might want to use it to format question titles. For instance, you could decide that
+each question belongs to a subsection in the \texttt{article} class, and use something like
+this before each question: \Lcs{subsection*}\Largb{Question \Lcs{thequestion}}
+
+\subsubsection{The Form and the Mask}
+\begin{BDef}
+\Lcs{makeform}\quad\Lcs{makemask}
+\end{BDef}
+Based on the questions appearing in your document, \textsf{xepersian-multiplechoice} has the ability to
+generate a ``form'' (a grid that your students will have to fill in), and a ``mask''
+(the same grid, only with correct answers properly checked in). This can make
+the correction process easier.
+
+To generate a form and a mask, use the macros \Lcs{makeform} and \Lcs{makemask}.
+\textsf{xepersian-multiplechoice} uses two auxiliary files to build them. These files have respectively an
+extension of \texttt{frm} and \texttt{msk}. If you use these macros, you will need two passes of
+\LaTeX\ in order to get a correctly formatted document.
+
+\subsubsection{Typesetting corrections}
+The ``correction'' mode  allows you to automatically
+typeset and distribute corrections to your students. These corrections
+are slightly modified versions of your questionnaire: each possible answer is prefixed with a small symbol (a visual clue) indicating whether the answer was correct
+or wrong. In addition, you can typeset explanations below each question.
+
+To activate the correction mode, use the \texttt{correction} option. It is off by
+default.
+
+To typeset explanations below the questions, use the \texttt{correction} environment
+(no argument). The contents of this environment is displayed only in correction
+mode. In normal mode, it is simply discarded.
+
+In addition, note that \textsf{xepersian-multiplechoice} cancels the actions performed by \Lcs{makeform} and
+\Lcs{makemask} in \texttt{correction} mode. This is to avoid further edition of the source
+when typesetting a correction.
+
+\subsubsection{Important Note}
+Currently, \textsf{xepersian-multiplechoice} requires that you provide a constant number of proposed answers
+across all questions in your \textsf{xepersian-multiplechoice}. This is something natural when you want to
+build forms, but this might me too restrictive otherwise, I'm not sure, so it is
+possible that this restriction will be removed in future versions.
+
+Currently, there is a built-in mechanism for checking that the number of proposed
+answers remains constant: when \textsf{xepersian-multiplechoice} encounters the first occurrence of the
+\texttt{question} environment, it remembers the number of proposed answers from there.
+Afterwards, any noticed difference in subsequent occurrences will generate an error.
+As a consequence, you never have to tell \textsf{xepersian-multiplechoice} explicitly what that number
+is.
+
+\subsection{Customising The Package}
+\subsubsection{The \texttt{question} environment}
+\begin{BDef}
+\Lcs{questionspace}\quad\Lcs{answerstitlefont}\quad\Lcs{answernumberfont}
+\end{BDef}
+\Lcs{questionspace} is the amount of extra vertical space to put under the question,
+before the list of proposed answers. This is a \LaTeX\ length that defaults to \texttt{0pt}.
+
+Before the list of possible answers, a short title is displayed (for English, it
+reads ``Possible answers:''). The \Lcs{answerstitlefont} macro takes one mandatory
+argument which redefines the font to use for the answers title. By default,
+\Lcs{bfseries} is used.
+
+Each proposed answer in the list is numbered automatically (and alphabetically).
+The \Lcs{answernumberfont} macro takes one mandatory argument which
+redefines the font to use for displaying the answer number. By default, \Lcs{bfseries}
+is used.
+
+\subsubsection{The Form and the Mask}
+\begin{BDef}
+\Lcs{headerfont}\quad\Lcs{X}
+\end{BDef}
+
+The \Lcs{headerfont} macro takes one mandatory argument which redefines the font
+to use for the headers (first line and first column) of the form and mask arrays.
+By default, \Lcs{bfseries} is used.
+
+In the mask, correct answers are checked in by filling the corresponding cell
+with an ``X'' character. If you want to change this, call the \Lcs{X} macro with one
+(mandatory) argument.
+
+\subsubsection{The correction}
+\begin{BDef}
+\Lcs{truesymbol}\quad\Lcs{falsesymbol}
+\end{BDef}
+
+In correction mode, labels in front of answers are modified to give a visual clue
+about whether the answer was correct or wrong. By default, a cross and a small
+arrow are used. You can change these symbols by using the \Lcs{truesymbol} and
+
+\Lcs{falsesymbol} macros. For instance, you could give a fancier look to your correction
+by using the \textsf{pifont} package and issuing:
+
+\begin{lstlisting}[numbers=none,morekeywords={truesymbol,ding,falsesymbol}]
+\truesymbol{\ding{'063}~}
+\falsesymbol{\ding{'067}~}
+\end{lstlisting}
+
+\begin{BDef}
+\Lcs{correctionstyle}
+\end{BDef}
+The appearance of the contents of the correction environment can be adjusted
+by using the \Lcs{correctionstyle} macro. By default, \Lcs{itshape} is used.
+
+\end{document}
