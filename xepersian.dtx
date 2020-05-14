@@ -218,7 +218,7 @@ by Vafa Khalighi.
 %\iffalse
 %<*table>
 %\fi
-%% \CheckSum{11018}
+%% \CheckSum{10968}
 %% \CharacterTable
 %%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
 %%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -1933,7 +1933,7 @@ by Vafa Khalighi.
   {
 
     \__fontspec_primitive_font_set:NnnF \l__fontspec_test_font
-      { \__fontspec_construct_font_call:nn { \l__fontspec_fontname_up_tl } {} }
+      { \__fontspec_construct_font_call:nn { \l__fontspec_fontname_up_tl } { \l__fontspec_pre_feat_sclist } }
       { \f@size pt - 2sp }
       { \__fontspec_error:nx {font-not-found} {\l__fontspec_fontname_up_tl} }
   \__xepersian_font_if_cannot_be_loaded:NnT \l__fontspec_fontname_up_tl { HM } 
@@ -1943,8 +1943,8 @@ by Vafa Khalighi.
   }
     \__fontspec_set_font_type:N \l__fontspec_test_font
     \__fontspec_primitive_font_gset:Onn \l__fontspec_fontface_cs_tl
-      {  \__fontspec_construct_font_call:nn { \l__fontspec_fontname_up_tl } {} }
-      { \f@size pt }
+      {  \__fontspec_construct_font_call:nn { \l__fontspec_fontname_up_tl } { \l__fontspec_pre_feat_sclist } }
+      { \f@size pt + 2sp }
 
     \l__fontspec_fontface_cs_tl % this is necessary for LuaLaTeX to check the scripts properly
 
@@ -1957,7 +1957,7 @@ by Vafa Khalighi.
       { \clist_clear:N \l__fontspec_fontopts_clist }
     \keys_set_groups:nnV {fontspec/fontname} {getfontname} \l__fontspec_fontopts_clist
     \__fontspec_primitive_font_set:OnnF \l__fontspec_fontface_cs_tl
-      { \__fontspec_construct_font_call:nn {#1} {} } { \f@size pt }
+      { \__fontspec_construct_font_call:nn {#1} { \l__fontspec_pre_feat_sclist } } { \f@size pt + 2sp }
       { \__fontspec_error:nx {font-not-found} {#2} }
     \__xepersian_font_if_cannot_be_loaded:NnT #2 { HM } 
   { 
@@ -2086,7 +2086,24 @@ by Vafa Khalighi.
 %\fi
 % \section{File \texttt{kashida-xepersian.def}}
 %    \begin{macrocode}
-\ProvidesFile{kashida-xepersian.def}[2018/01/04 v0.6 implementation of Kashida for xepersian package]
+\ProvidesFile{kashida-xepersian.def}[2020/05/14 v0.7 implementation of Kashida for xepersian package]
+%
+% The new changes is minimal and only cosmetic; To resolve the 
+% issue properly, I will be studying TeX line breaking algorithms and
+% experiment to see how much of it I can mimic. The idea of using
+% a rule or even a box is awful and it breaks a lot of things. The ideal
+% solution is to insert Kashida without any rules or boxes or if
+% the font offers the alternative forms, it can be used for Kashida.
+% Unfortunately, computing the stretch using the \pdfsavepos and
+% \pdflastxpos primitives from the PDFTeX engine is bad and
+% impractical for several reasons.The process is extremely
+% slow and requires at least two runs of TeX. On a particular line, 
+% we need to write to the aux file at least 10 times, on a page we
+% have on average around 10 lines and hence, for a 100 pages
+% document, we have to do this 10,000 times. These statistics are
+% very modest. On the other hand, if we reach max count (which is
+% very likely), then we have to do some devious things.
+%
 \chardef\xepersian@zwj="200D % zero-width joiner
 \chardef\xepersian@kashidachar="0640 % kashida
 
@@ -2094,12 +2111,16 @@ by Vafa Khalighi.
 \chardef\xepersian@L=11 % lam
 \chardef\xepersian@R=12 % right-joiner
 \chardef\xepersian@A=13 % alef
-\chardef\xepersian@H=14 % heh
 \chardef\xepersian@V=4096 % vowel or other combining mark (to be ignored)
 \newif\if@Kashida@on
-\newif\if@Kashida@XB@fix
 \def\xepersian@kashida{\if@Kashida@on\xepersian@zwj\nobreak%
-    \leaders\hrule height \XeTeXglyphbounds\tw@ \the\XeTeXcharglyph\xepersian@kashidachar  depth \XeTeXglyphbounds\f@ur \the\XeTeXcharglyph\xepersian@kashidachar \hskip0pt plus 0.5em \xepersian@zwj\fi}
+    \leaders\hrule height \XeTeXglyphbounds\tw@ \the\XeTeXcharglyph\xepersian@kashidachar  depth \XeTeXglyphbounds\f@ur \the\XeTeXcharglyph\xepersian@kashidachar \hskip0pt plus 
+    \dimexpr \fontcharwd\font\xepersian@kashidachar -
+    \XeTeXglyphbounds\@ne
+    \the\XeTeXcharglyph\xepersian@kashidachar -
+    \XeTeXglyphbounds\thr@@
+    \the\XeTeXcharglyph\xepersian@kashidachar \relax
+\xepersian@zwj\fi}
 
 \def\setclass#1#2{\def\theclass{#1}\def\charlist{#2}%
   \expandafter\dosetclass\charlist,\end}
@@ -2115,33 +2136,23 @@ by Vafa Khalighi.
 \setclass \xepersian@R {0624,0629,062F,0630,0631,0632,0648,0698}
 \setclass \xepersian@D {0626,0628,062A,062B,062C,062D,062E}
 \setclass \xepersian@D {0633,0634,0635,0636,0637,0638,0639,063A}
-%\setclass \xepersian@D {0640,0641,0642,0643,0645,0646,0647,0649,064A}
-\setclass \xepersian@D {0640,0641,0642,0643,0645,0646,0649,064A}
-\setclass \xepersian@H {0647}
+\setclass \xepersian@D {0640,0641,0642,0643,0645,0646,0647,0649,064A}
 \setclass \xepersian@D {067E,0686,06A9,06AF,06CC}
 \setclass \xepersian@L {0644}
 \setclass \xepersian@V {064B,064C,064D,064E,064F,0650,0651,0652}
 
 \XeTeXinterchartoks \xepersian@D \xepersian@D = {\xepersian@kashida}
-\XeTeXinterchartoks \xepersian@H \xepersian@D = {\if@Kashida@XB@fix\else\xepersian@kashida\fi}
-\XeTeXinterchartoks \xepersian@D \xepersian@H = {\xepersian@kashida}
 \XeTeXinterchartoks \xepersian@L \xepersian@D = {\xepersian@kashida}
 \XeTeXinterchartoks \xepersian@D \xepersian@L = {\xepersian@kashida}
-\XeTeXinterchartoks \xepersian@L \xepersian@H = {\xepersian@kashida}
-\XeTeXinterchartoks \xepersian@H \xepersian@L = {\if@Kashida@XB@fix\else\xepersian@kashida\fi}
 \XeTeXinterchartoks \xepersian@L \xepersian@L = {\xepersian@kashida}
 \XeTeXinterchartoks \xepersian@D \xepersian@R = {\xepersian@kashida}
-\XeTeXinterchartoks \xepersian@H \xepersian@R = {\if@Kashida@XB@fix\else\xepersian@kashida\fi}
 \XeTeXinterchartoks \xepersian@D \xepersian@A = {\xepersian@kashida}
-\XeTeXinterchartoks \xepersian@H \xepersian@A = {\if@Kashida@XB@fix\else\xepersian@kashida\fi}
 \XeTeXinterchartoks \xepersian@L \xepersian@R = {\xepersian@kashida}
 \XeTeXinterchartoks \xepersian@L \xepersian@A = {}
 
 \newcommand{\KashidaOn}{\@Kashida@ontrue}
 \newcommand{\KashidaOff}{\@Kashida@onfalse}
 
-\newcommand{\KashidaXBFixOn}{\@Kashida@XB@fixtrue}
-\newcommand{\KashidaXBFixOff}{\@Kashida@XB@fixfalse}
 \KashidaOn
 %    \end{macrocode}
 % \iffalse
@@ -3552,9 +3563,8 @@ Persian typesetting in XeLaTeX]
 \keys_define:nn {fontspec-opentype}
   {
     Ligatures / PersianTeX .code:n = { \tl_set:Nn \l__fontspec_mapping_tl {persian-tex-text} },
-    Ligatures / PersianTeX .groups:n = {opentype},
+    Ligatures / PersianTeXOff .code:n = { \tl_clear:N \l__fontspec_mapping_tl },
     Ligatures / PersianTeXReset .code:n = { \tl_clear:N \l__fontspec_mapping_tl },
-    Ligatures / PersianTeXReset .groups:n = {opentype},
   }
 
 \keys_define:nn {fontspec-aat}
@@ -3622,8 +3632,6 @@ Persian typesetting in XeLaTeX]
      \XeTeXinterchartoks \bidi@digits@charclass  \xepersian@A = {\xepersian@@stop@switch@textdigitfont}
      \XeTeXinterchartoks \xepersian@R  \bidi@digits@charclass = {\xepersian@@start@switch@textdigitfont}
      \XeTeXinterchartoks \bidi@digits@charclass  \xepersian@R = {\xepersian@@stop@switch@textdigitfont}
-     \XeTeXinterchartoks \xepersian@H  \bidi@digits@charclass = {\xepersian@@start@switch@textdigitfont}
-     \XeTeXinterchartoks \bidi@digits@charclass  \xepersian@H = {\xepersian@@stop@switch@textdigitfont}
    }
  }
  
@@ -4759,12 +4767,6 @@ number is 999,999,999.}%
   \ifcase\xepersian@tempb\relax
     \input{kashida-xepersian.def}
   \fi}
-\define@choicekey{xepersian.sty}{KashidaXBFix}[\xepersian@tempa\xepersian@tempb]{on,off}[on]{%
-  \ifcase\xepersian@tempb\relax
-    \@Kashida@XB@fixtrue
-  \or
-    \@Kashida@XB@fixfalse
-  \fi}
 \define@choicekey{xepersian.sty}{localise}[\xepersian@tempa\xepersian@tempb]{on,off}[on]{%
   \ifcase\xepersian@tempb\relax
     \input{localise-xepersian.def}
@@ -4907,15 +4909,13 @@ number is 999,999,999.}%
     \@bidi@perpage@footnotefalse
   \fi}
 
-\ExplSyntaxOn
-\bool_new:N \l__xepersian_fontsloadable_bool
+\newif\if@xepersian@fontsloadable@bool
 \define@choicekey{xepersian.sty}{fontsloadable}[\xepersian@tempa\xepersian@tempb]{true,false}[true]{%
   \ifcase\xepersian@tempb\relax
-    \bool_set_true:N \l__xepersian_fontsloadable_bool
+    \@xepersian@fontsloadable@booltrue
   \or
-    \bool_set_false:N \l__xepersian_fontsloadable_bool
+    \@xepersian@fontsloadable@boolfalse
   \fi}
-\ExplSyntaxOff
 
 \ExecuteOptionsX{%
     fontsloadable=false,
@@ -4940,12 +4940,16 @@ number is 999,999,999.}%
   \input{extrafootnotefeatures-xepersian.def}%
 \fi
 
-\ExplSyntaxOn
-\bool_if:NF \l__xepersian_fontsloadable_bool
-  {
+\if@xepersian@fontsloadable@bool
+    \PackageWarningNoLine{xepersian}{%
+      The option `fontsloadable' should only be used in exceptional
+      cases.
+      You are not allowed to use the option `fontsloadable' unless
+      you have a written permission from the primary author of the
+      xepersian package}%
+\else
     \input{fontspec-xepersian.def}%  
-  }
-\ExplSyntaxOff
+\fi
 
 \bidi@patchcmd{\set@fontsize}{\@tempdimb#2pt}{%
   \@tempdimb\xepersian@@fontsize@scale\dimexpr#2pt\relax
