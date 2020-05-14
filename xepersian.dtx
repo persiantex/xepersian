@@ -5,7 +5,7 @@
 %<*readme>
 ____________________
 The XePersian package
-v22.7
+v22.9
 
 The xepersian package provides a convenient interface for 
 typesetting Persian and English texts in LaTeX, using XeTeX 
@@ -22,11 +22,11 @@ In doing so, please always explain your issue well enough, and always
 include a minimal working example showing the issue.
   
 
-Current version release date: 2019/05/01
-______________
-Vafa Khalighi
+Current version release date: 2020/05/14
+____________________________________________
+Copyright (c) Vafa Khalighi 2008--2020
+                      bidi-tex GitHub Organisation 2018--2020
 
-Copyright (c) 2008--2019
 Distributed under the LaTeX Project Public License
 It may be distributed and/or modified under the LaTeX Project Public License,
 version 1.3c or higher (your choice). The latest version of
@@ -46,7 +46,8 @@ by Vafa Khalighi.
 \preamble
 
   __________________________________________________
-  Copyright (c) 2008--2019  Vafa Khalighi 
+  Copyright (c) 2008--2020  Vafa Khalighi 
+                        2018--2020 bidi-tex GitHub Organisation
 
   It may be distributed and/or modified under the LaTeX Project Public License,
   version 1.3c or higher (your choice). The latest version of
@@ -152,7 +153,7 @@ by Vafa Khalighi.
 \documentclass{ltxdoc}
 \input{xepersian-doc-preamble.ltx}
 \hypersetup{%
-  pdftitle={Source documentation for version 22.7 of the XePersian
+  pdftitle={Source documentation for version 22.9 of the XePersian
                 package}%
 }
 \EnableCrossrefs
@@ -171,8 +172,8 @@ by Vafa Khalighi.
 % \GetFileInfo{\jobname.dtx}
 % \title{\textcolor{blue!65!black}{\Huge The \textsf{\XePersian} \textit{Package}}\\
 %\LARGE Persian for \LaTeXe, using {\XeTeX} engine\\[5pt]
-%\large Source documentation for \textcolor{blue!65!black}{version 22.7}}
-% \author{Vafa Khalighi}
+%\large Source documentation for \textcolor{blue!65!black}{version 22.9}}
+% \author{Vafa Khalighi\thanks{Thanks to the bidi-tex GitHub organization consisting of David Carlisle and other members of the  {\LaTeX} team to maintain the package in the period 2018--2020.}}
 %\setcounter{page}{0}
 %\thispagestyle{empty}
 %\includegraphics[width=.3\textwidth]{xepersian-logo}\qquad
@@ -181,7 +182,7 @@ by Vafa Khalighi.
 %\textcolor{blue!65!black}{\Huge The \textsf{\XePersian} \textit{Package}}
 %
 %\Large
-%Source documentation for \textcolor{blue!65!black}{version 22.7}}
+%Source documentation for \textcolor{blue!65!black}{version 22.9}}
 %
 %\vskip 0pt plus 3fill
 %\textit{\large to my Master, \textbf{Ferdowsi The Great}}
@@ -202,7 +203,10 @@ by Vafa Khalighi.
 %
 %\vskip 0pt plus 3fill
 %
-%Copyright (c) 2008--2019 Vafa Khalighi
+%\begin{tabular}{ll}
+%Copyright (c) &2008--2020 Vafa Khalighi\\
+%&2018--2020 bidi-tex GitHub Organisation
+%\end{tabular}
 %
 %\medskip
 %Permission is granted to distribute and/or modify \emph{both the documentation and the code} under the conditions of the \LaTeX{} Project Public License, either version 1.3c of this license or (at your option) any later version.
@@ -3463,8 +3467,8 @@ U+003E U+003E <> U+00BB ; >> -> RIGHT POINTING GUILLEMET
 % \section{File \texttt{xepersian.sty}}
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}
-\def\xepersian@version{22.7}
-\def\xepersiandate{2019/05/01}
+\def\xepersian@version{22.9}
+\def\xepersiandate{2020/05/14}
 \ProvidesPackage{xepersian}[\xepersiandate\space v\xepersian@version\space 
 Persian typesetting in XeLaTeX]
 \RequirePackage{fontspec}
@@ -3479,7 +3483,8 @@ Persian typesetting in XeLaTeX]
 * typesetting, using fonts provided in the^^J%
 * distribution.^^J%
 * ^^J%
-* Copyright (c) 2008--2019 Vafa Khalighi^^J%
+* Copyright (c) 2008--2020 Vafa Khalighi^^J%
+*                       2018--2020 bidi-tex GitHub Organisation^^J%
 * ^^J%
 * v\xepersian@version, \xepersiandate^^J%
 * ^^J%
@@ -4296,7 +4301,7 @@ Persian typesetting in XeLaTeX]
 
 \newcommand*{\@xepersian@pdfcustomproperties}{%
   This is the xepersian package, Version \xepersian@version,
-  Released May 1, 2019. 
+  Released May 14, 2020. 
 }
 
 \newcommand\twocolumnstableofcontents{%
