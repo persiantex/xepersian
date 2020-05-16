@@ -5,7 +5,7 @@
 %<*readme>
 ____________________
 The XePersian package
-v22.9
+v23.0
 
 The xepersian package provides a convenient interface for 
 typesetting Persian and English texts in LaTeX, using XeTeX 
@@ -22,7 +22,7 @@ In doing so, please always explain your issue well enough, and always
 include a minimal working example showing the issue.
   
 
-Current version release date: 2020/05/14
+Current version release date: 2020/05/16
 ___________________________________________
 Copyright (c) Vafa Khalighi 2008--2020
 Copyright (c) bidi-tex GitHub Organization 2018--2020
@@ -89,7 +89,6 @@ by Vafa Khalighi.
 \generate{\file{extrafootnotefeatures-xepersian.def}{\from{\jobname.dtx}{table,extrafootnotefeatures-xepersian.def}}}
 \generate{\file{extreport-xepersian.def}{\from{\jobname.dtx}{table,extreport-xepersian.def}}}
 \generate{\file{fancyref-xepersian.def}{\from{\jobname.dtx}{table,fancyref-xepersian.def}}}
-\generate{\file{fontspec-xepersian.def}{\from{\jobname.dtx}{table,fontspec-xepersian.def}}}
 \generate{\file{footnote-xepersian.def}{\from{\jobname.dtx}{table,footnote-xepersian.def}}}
 \generate{\file{framed-xepersian.def}{\from{\jobname.dtx}{table,framed-xepersian.def}}}
 \generate{\file{glossaries-xepersian.def}{\from{\jobname.dtx}{table,glossaries-xepersian.def}}}
@@ -153,7 +152,7 @@ by Vafa Khalighi.
 \documentclass{ltxdoc}
 \input{xepersian-doc-preamble.ltx}
 \hypersetup{%
-  pdftitle={Source documentation for version 22.9 of the XePersian
+  pdftitle={Source documentation for version 23.0 of the XePersian
                 package}%
 }
 \EnableCrossrefs
@@ -172,7 +171,7 @@ by Vafa Khalighi.
 % \GetFileInfo{\jobname.dtx}
 % \title{\textcolor{blue!65!black}{\Huge The \textsf{\XePersian} \textit{Package}}\\
 %\LARGE Persian for \LaTeXe, using {\XeTeX} engine\\[5pt]
-%\large Source documentation for \textcolor{blue!65!black}{version 22.9}}
+%\large Source documentation for \textcolor{blue!65!black}{version 23.0}}
 % \author{Vafa Khalighi\thanks{Thanks to the bidi-tex GitHub organization consisted of David Carlisle and other members of the  {\LaTeX} team to maintain the package in the period 2018--2020.}}
 %\setcounter{page}{0}
 %\thispagestyle{empty}
@@ -182,7 +181,7 @@ by Vafa Khalighi.
 %\textcolor{blue!65!black}{\Huge The \textsf{\XePersian} \textit{Package}}
 %
 %\Large
-%Source documentation for \textcolor{blue!65!black}{version 22.9}}
+%Source documentation for \textcolor{blue!65!black}{version 23.0}}
 %
 %\vskip 0pt plus 3fill
 %\textit{\large to my Master, \textbf{Ferdowsi The Great}}
@@ -218,7 +217,7 @@ by Vafa Khalighi.
 %\iffalse
 %<*table>
 %\fi
-%% \CheckSum{10968}
+%% \CheckSum{10884}
 %% \CharacterTable
 %%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
 %%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -1900,75 +1899,6 @@ by Vafa Khalighi.
 %    \end{macrocode}
 % \iffalse
 %</fancyref-xepersian.def>
-%<*fontspec-xepersian.def>
-%\fi
-% \section{File \texttt{fontspec-xepersian.def}}
-%    \begin{macrocode}
-\ProvidesFile{fontspec-xepersian.def}[2019/05/01 v0.4 fontspec changes]
-\ExplSyntaxOn
-\cs_new:Npn \__xepersian_error:nx    { \msg_error:nnx    {xepersian} }
-\char_set_catcode_space:n {32}
-\cs_new:Nn \__xepersian_msg_new:nnnn
-  { \msg_new:nnxx {#1} {#2} { \tl_trim_spaces:n {#3} } { \tl_trim_spaces:n {#4} } }
-\__xepersian_msg_new:nnnn {xepersian} {font-cannot-be-loaded}
- {
-  The font "#1" cannot be loaded by the xepersian package.
- }
- {
-  Select another font and rerun xelatex.
- }
-\char_set_catcode_ignore:n {32}
-\prg_new_conditional:Nnn \__xepersian_font_if_cannot_be_loaded:Nn {p,TF,T,F}
-  {
-    \str_if_in:NnTF { #1 } { #2 }
-    {
-      \prg_return_true:
-    }
-    {
-      \prg_return_false:
-    }
-  }
-\cs_undefine:N \__fontspec_load_font:
-\cs_new:Nn \__fontspec_load_font:
-  {
-
-    \__fontspec_primitive_font_set:NnnF \l__fontspec_test_font
-      { \__fontspec_construct_font_call:nn { \l__fontspec_fontname_up_tl } { \l__fontspec_pre_feat_sclist } }
-      { \f@size pt - 2sp }
-      { \__fontspec_error:nx {font-not-found} {\l__fontspec_fontname_up_tl} }
-  \__xepersian_font_if_cannot_be_loaded:NnT \l__fontspec_fontname_up_tl { HM } 
-  { 
-    \__xepersian_error:nx {font-cannot-be-loaded} {\l__fontspec_fontname_up_tl} 
-    \cs_gset_eq:NN \l__fontspec_fontname_up_tl \tex_nullfont:D
-  }
-    \__fontspec_set_font_type:N \l__fontspec_test_font
-    \__fontspec_primitive_font_gset:Onn \l__fontspec_fontface_cs_tl
-      {  \__fontspec_construct_font_call:nn { \l__fontspec_fontname_up_tl } { \l__fontspec_pre_feat_sclist } }
-      { \f@size pt + 2sp }
-
-    \l__fontspec_fontface_cs_tl % this is necessary for LuaLaTeX to check the scripts properly
-
-  }
-\cs_undefine:N \__fontspec_load_fontname:Nn
-\cs_new:Nn \__fontspec_load_fontname:Nn
-  {
-    \__fontspec_load_external_fontoptions:Nn #1 {#2}
-    \prop_get:NVNF \g__fontspec_fontopts_prop #1 \l__fontspec_fontopts_clist
-      { \clist_clear:N \l__fontspec_fontopts_clist }
-    \keys_set_groups:nnV {fontspec/fontname} {getfontname} \l__fontspec_fontopts_clist
-    \__fontspec_primitive_font_set:OnnF \l__fontspec_fontface_cs_tl
-      { \__fontspec_construct_font_call:nn {#1} { \l__fontspec_pre_feat_sclist } } { \f@size pt + 2sp }
-      { \__fontspec_error:nx {font-not-found} {#2} }
-    \__xepersian_font_if_cannot_be_loaded:NnT #2 { HM } 
-  { 
-    \__xepersian_error:nx {font-cannot-be-loaded} {#2} 
-    \cs_gset_eq:NN \l_fontspec_font \tex_nullfont:D
-  }
-  }
-\ExplSyntaxOff
-%    \end{macrocode}
-% \iffalse
-%</fontspec-xepersian.def>
 %<*footnote-xepersian.def>
 %\fi
 % \section{File \texttt{footnote-xepersian.def}}
@@ -2086,7 +2016,7 @@ by Vafa Khalighi.
 %\fi
 % \section{File \texttt{kashida-xepersian.def}}
 %    \begin{macrocode}
-\ProvidesFile{kashida-xepersian.def}[2020/05/14 v0.7 implementation of Kashida for xepersian package]
+\ProvidesFile{kashida-xepersian.def}[2020/05/16 v0.8 implementation of Kashida for xepersian package]
 %
 % The new changes is minimal and only cosmetic; To resolve the 
 % issue properly, I will be studying TeX line breaking algorithms and
@@ -2105,6 +2035,7 @@ by Vafa Khalighi.
 % very likely), then we have to do some devious things.
 %
 \chardef\xepersian@zwj="200D % zero-width joiner
+\chardef\xepersian@lrm="200E % left to right mark
 \chardef\xepersian@kashidachar="0640 % kashida
 
 \chardef\xepersian@D=10 % dual-joiner class
@@ -2113,14 +2044,24 @@ by Vafa Khalighi.
 \chardef\xepersian@A=13 % alef
 \chardef\xepersian@V=4096 % vowel or other combining mark (to be ignored)
 \newif\if@Kashida@on
-\def\xepersian@kashida{\if@Kashida@on\xepersian@zwj\nobreak%
-    \leaders\hrule height \XeTeXglyphbounds\tw@ \the\XeTeXcharglyph\xepersian@kashidachar  depth \XeTeXglyphbounds\f@ur \the\XeTeXcharglyph\xepersian@kashidachar \hskip0pt plus 
-    \dimexpr \fontcharwd\font\xepersian@kashidachar -
-    \XeTeXglyphbounds\@ne
-    \the\XeTeXcharglyph\xepersian@kashidachar -
-    \XeTeXglyphbounds\thr@@
-    \the\XeTeXcharglyph\xepersian@kashidachar \relax
-\xepersian@zwj\fi}
+\def\xepersian@kashida{%
+  \if@Kashida@on
+    \xepersian@zwj
+    \xepersian@lrm
+    \nobreak
+    \leaders\hrule height \XeTeXglyphbounds\tw@
+    \the\XeTeXcharglyph\xepersian@kashidachar  
+    depth \XeTeXglyphbounds\f@ur
+    \the\XeTeXcharglyph\xepersian@kashidachar 
+    \hskip0pt plus 0.5em
+%    \dimexpr \fontcharwd\font\xepersian@kashidachar -
+%    \XeTeXglyphbounds\@ne
+%    \the\XeTeXcharglyph\xepersian@kashidachar -
+%    \XeTeXglyphbounds\thr@@
+%    \the\XeTeXcharglyph\xepersian@kashidachar \relax
+    \xepersian@zwj
+  \fi
+}
 
 \def\setclass#1#2{\def\theclass{#1}\def\charlist{#2}%
   \expandafter\dosetclass\charlist,\end}
@@ -3477,8 +3418,8 @@ U+003E U+003E <> U+00BB ; >> -> RIGHT POINTING GUILLEMET
 % \section{File \texttt{xepersian.sty}}
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}
-\def\xepersian@version{22.9}
-\def\xepersiandate{2020/05/14}
+\def\xepersian@version{23.0}
+\def\xepersiandate{2020/05/16}
 \ProvidesPackage{xepersian}[\xepersiandate\space v\xepersian@version\space 
 Persian typesetting in XeLaTeX]
 \RequirePackage{fontspec}
@@ -4308,7 +4249,7 @@ Persian typesetting in XeLaTeX]
 
 \newcommand*{\@xepersian@pdfcustomproperties}{%
   This is the xepersian package, Version \xepersian@version,
-  Released May 14, 2020. 
+  Released May 16, 2020. 
 }
 
 \newcommand\twocolumnstableofcontents{%
@@ -4909,16 +4850,7 @@ number is 999,999,999.}%
     \@bidi@perpage@footnotefalse
   \fi}
 
-\newif\if@xepersian@fontsloadable@bool
-\define@choicekey{xepersian.sty}{fontsloadable}[\xepersian@tempa\xepersian@tempb]{true,false}[true]{%
-  \ifcase\xepersian@tempb\relax
-    \@xepersian@fontsloadable@booltrue
-  \or
-    \@xepersian@fontsloadable@boolfalse
-  \fi}
-
 \ExecuteOptionsX{%
-    fontsloadable=false,
     documentdirection=righttoleft,
     tabledirection=righttoleft,
     script=nonlatin,
@@ -4938,17 +4870,6 @@ number is 999,999,999.}%
 \if@extrafootnotefeatures
   \input{extrafootnotefeatures-xetex-bidi.def}%
   \input{extrafootnotefeatures-xepersian.def}%
-\fi
-
-\if@xepersian@fontsloadable@bool
-    \PackageWarningNoLine{xepersian}{%
-      The option `fontsloadable' should only be used in exceptional
-      cases.
-      You are not allowed to use the option `fontsloadable' unless
-      you have a written permission from the primary author of the
-      xepersian package}%
-\else
-    \input{fontspec-xepersian.def}%  
 \fi
 
 \bidi@patchcmd{\set@fontsize}{\@tempdimb#2pt}{%
