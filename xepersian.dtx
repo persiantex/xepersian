@@ -3285,14 +3285,12 @@ U+003E U+003E <> U+00BB ; >> -> RIGHT POINTING GUILLEMET
 %\fi
 % \section{File \texttt{tikz.code-xepersian.def}}
 %    \begin{macrocode}
-\ProvidesFile{tikz.code-xepersian.def}[2018/12/11 v0.1 adaptations for tikz.code.tex file]
+\ProvidesFile{tikz.code-xepersian.def}[2020/05/16 v0.2 adaptations for tikz.code.tex file]
 \bidi@patchcmd\tikz@finish{%
-  \begingroup
-    \tikz@options
+  \tikz@preactions%
 }{%
-  \begingroup
-    \@@textdigitfont@onfalse
-    \tikz@options
+  \@@textdigitfont@onfalse%
+  \tikz@preactions%
 }{}{}
 %    \end{macrocode}
 % \iffalse
