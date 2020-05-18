@@ -2035,7 +2035,6 @@ by Vafa Khalighi.
 % very likely), then we have to do some devious things.
 %
 \chardef\xepersian@zwj="200D % zero-width joiner
-\chardef\xepersian@lrm="200E % left to right mark
 \chardef\xepersian@kashidachar="0640 % kashida
 
 \chardef\xepersian@D=10 % dual-joiner class
@@ -2047,7 +2046,6 @@ by Vafa Khalighi.
 \def\xepersian@kashida{%
   \if@Kashida@on
     \xepersian@zwj
-    \xepersian@lrm
     \nobreak
     \leaders\hrule height \XeTeXglyphbounds\tw@
     \the\XeTeXcharglyph\xepersian@kashidachar  
