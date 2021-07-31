@@ -5952,7 +5952,7 @@ indexblock environment may only appear inside frontpage environment.
 
 \prg_new_conditional:Nnn \__xepersian_mathsdigitspec_primitive_font_char_if_exist:n {p,TF,T,F}
   {
-    \etex_iffontchar:D \l_fontspec_font "#1 \scan_stop:
+    \tex_iffontchar:D \l_fontspec_font "#1 \scan_stop:
       \prg_return_true:
     \else:
       \prg_return_false:
